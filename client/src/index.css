@@ -1,0 +1,31 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root[data-theme="light"] {
+  --foreground: #090f17;
+  --background: #f0f5fa;
+  --primary: #457fc4;
+  --secondary: #8ab0de;
+  --accent: #5c94d7;
+}
+:root[data-theme="dark"] {
+  --foreground: #e9eff6;
+  --background: #050a0f;
+  --primary: #3b74ba;
+  --secondary: #214673;
+  --accent: #2860a4;
+}
+
+.logo {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  &:hover {
+    scale: 0.98;
+    filter: drop-shadow(0 0px 15px var(--primary))
+      drop-shadow(0 0px 50px var(--primary));
+  }
+}
