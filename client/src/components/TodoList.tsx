@@ -1,39 +1,28 @@
-import {
-  Flex,
-  Spinner,
-  Stack,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { useState } from "react";
+import { Flex, Image, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 
-import { TodoItem } from "./TodoItem";
-
-const todos = [
-  {
-    _id: 1,
-    body: "Buy groceries",
-    completed: true,
-  },
-  {
-    _id: 2,
-    body: "Walk the dog",
-    completed: false,
-  },
-  {
-    _id: 3,
-    body: "Do laundry",
-    completed: false,
-  },
-  {
-    _id: 4,
-    body: "Cook dinner",
-    completed: true,
-  },
-];
+import { TodoItem, TodoItemSkeleton } from "./TodoItem";
+import { API } from "../constants/api";
+import { Todo } from "../lib/types";
 
 const TodoList = () => {
-  const [loading] = useState(false);
+  const { data: todos, isLoading } = useQuery<Todo[]>({
+    queryKey: ["todos"],
+    queryFn: async () => {
+      try {
+        const res = await fetch(import.meta.env.VITE_BASE_URL + API.Todos);
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Something went wrong");
+        }
+
+        return data || [];
+      } catch {
+        return [];
+      }
+    },
+  });
 
   return (
     <>
@@ -44,10 +33,10 @@ const TodoList = () => {
         className="glow-static"
       >
         <Text
-          fontSize={"4xl"}
-          textTransform={"uppercase"}
-          fontWeight={"black"}
-          textAlign={"center"}
+          fontSize="4xl"
+          textTransform="uppercase"
+          fontWeight="black"
+          textAlign="center"
           my={6}
           bgGradient={`linear(to-r, ${useColorModeValue(
             "light.foreground",
@@ -57,22 +46,24 @@ const TodoList = () => {
         >
           Daily Goals
         </Text>
-        <Text fontSize={"4xl"}>🎯</Text>
+        <Text fontSize="4xl">🎯</Text>
       </Flex>
-      {loading && (
-        <Flex justifyContent={"center"} my={4}>
-          <Spinner size={"xl"} />
-        </Flex>
-      )}
-      {!loading && todos?.length === 0 && (
-        <Stack alignItems={"center"} gap="3">
-          <Text fontSize={"xl"} textAlign={"center"} color={"gray.500"}>
-            All tasks completed! 🤞
-          </Text>
-          <img src="/go.png" alt="Go logo" width={70} height={70} />
+      {isLoading && (
+        <Stack gap="3" mt={8}>
+          <TodoItemSkeleton />
+          <TodoItemSkeleton />
+          <TodoItemSkeleton />
         </Stack>
       )}
-      <Stack gap={3}>
+      {!isLoading && todos?.length === 0 && (
+        <Stack alignItems="center" gap="3" mt={8}>
+          <Text fontSize={"xl"} textAlign="center" fontWeight="semibold">
+            All task is done! 🎉
+          </Text>
+          <Image src="/go.svg" alt="Go logo" width={70} height={70} />
+        </Stack>
+      )}
+      <Stack gap="3" mt={8}>
         {todos?.map((todo) => (
           <TodoItem key={todo._id} {...todo} />
         ))}

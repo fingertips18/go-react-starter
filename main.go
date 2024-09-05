@@ -8,6 +8,7 @@ import (
 
 	"github.com/Fingertips18/go-starter/src/constants"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -51,6 +52,8 @@ func main() {
 	collection = client.Database("go").Collection("todos")
 
 	app := fiber.New()
+
+	app.Use(cors.New(cors.Config{AllowOrigins: "http://localhost:5173", AllowHeaders: "Origin, Content-Type, Accept"}))
 
 	app.Get(constants.GETTodos, getTodos)
 	app.Get(constants.GETTodo, getTodo)
@@ -144,7 +147,15 @@ func patchTodo(c *fiber.Ctx) error {
 	}
 
 	filter := bson.M{"_id": objectID}
-	update := bson.M{"$set": bson.M{"completed": true}}
+
+	var todo Todo
+	err = collection.FindOne(context.Background(), filter).Decode(&todo)
+	if err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "Failed to retrieve todo"})
+	}
+
+	currentStatus := todo.Completed
+	update := bson.M{"$set": bson.M{"completed": !currentStatus}}
 
 	_, err = collection.UpdateOne(context.Background(), filter, update)
 	if err != nil {
