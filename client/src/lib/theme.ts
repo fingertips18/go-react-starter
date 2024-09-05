@@ -1,7 +1,19 @@
+import { mode, StyleFunctionProps } from "@chakra-ui/theme-tools";
 import { extendTheme } from "@chakra-ui/react";
 import "@fontsource-variable/montserrat";
 
 export const theme = extendTheme({
+  config: {
+    initialColorMode: "dark",
+    useSystemColorMode: true,
+  },
+  styles: {
+    global: (props: StyleFunctionProps) => ({
+      body: {
+        backgroundColor: mode("light.background", "dark.background")(props),
+      },
+    }),
+  },
   fonts: {
     heading: `'Montserrat Variable', sans-serif`,
     body: `'Montserrat Variable', sans-serif`,

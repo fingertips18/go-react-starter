@@ -1,17 +1,16 @@
-import { Container, Stack, useColorModeValue } from "@chakra-ui/react";
+import { Container, Stack } from "@chakra-ui/react";
 
+import { TodoForm } from "./components/TodoForm";
+import { TodoList } from "./components/TodoList";
 import { Navbar } from "./components/Navbar";
 
 function App() {
   return (
-    <Stack
-      h="100dvh"
-      bg={useColorModeValue("light.background", "dark.background")}
-    >
+    <Stack h="100dvh">
       <Navbar />
       <Container>
-        {/* <TodoForm />
-        <TodoList /> */}
+        <TodoForm />
+        <TodoList />
       </Container>
     </Stack>
   );

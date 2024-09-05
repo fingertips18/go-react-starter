@@ -27,7 +27,7 @@ const Navbar = () => {
       />
       <Container maxW="1024px" px={4} py={2} position="relative" zIndex={10}>
         <Flex h={10} alignItems="center" justifyContent="space-between">
-          <a href="/" className="logo">
+          <a href="/" className="glow-hover">
             <Flex alignItems="center" gap="4px">
               <Image src={GOTEXT} alt="Go" objectFit="contain" boxSize="42px" />
               <Heading as="h2" size="md" fontWeight="extrabold" color="go">
@@ -42,7 +42,7 @@ const Navbar = () => {
               bg={useColorModeValue("light.accent", "dark.accent")}
               color="dark.foreground"
               _hover={{
-                color: useColorModeValue("light.foreground", "dark.foreground"),
+                opacity: 0.8,
               }}
             >
               {colorMode === "light" ? <Moon /> : <Sun />}
