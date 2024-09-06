@@ -10,9 +10,9 @@ import RootPage from "./pages/root";
 function App() {
   return (
     <ToastProvider>
-      <Stack h="100dvh" overflowX="hidden">
+      <Stack h="100dvh" overflowX="hidden" overflowY="auto">
         <Navbar />
-        <Container>
+        <Container pb={12} pt={4}>
           <Routes>
             <Route path={AppRoutes.Root} element={<RootPage />} />
             <Route path={AppRoutes.Details} element={<DetailsPage />} />

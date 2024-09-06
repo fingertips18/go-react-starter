@@ -19,12 +19,23 @@ const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Box boxShadow="sm" position="relative">
+    <Box
+      boxShadow="sm"
+      position="sticky"
+      top={0}
+      zIndex="docked"
+      w="100%"
+      backdropFilter="auto"
+      backdropBlur="16px"
+      borderBottom="1px"
+      borderColor="goOpacity"
+      className="blur-performance"
+    >
       <Box
         w="100%"
         h="100%"
         bg={useColorModeValue("light.secondary", "dark.secondary")}
-        opacity={0.08}
+        opacity={0.1}
         position="absolute"
       />
       <Container maxW="1024px" px={4} py={2} position="relative" zIndex={10}>
