@@ -25,9 +25,11 @@ type Todo struct {
 var collection *mongo.Collection
 
 func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatal("Error loading .env file:", err)
+	if os.Getenv("MODE") == "development" {
+		err := godotenv.Load(".env")
+		if err != nil {
+			log.Fatal("Error loading .env file:", err)
+		}
 	}
 
 	MONGODB_URI := os.Getenv("MONGODB_URI")
@@ -53,7 +55,10 @@ func main() {
 
 	app := fiber.New()
 
-	app.Use(cors.New(cors.Config{AllowOrigins: "http://localhost:5173", AllowHeaders: "Origin, Content-Type, Accept"}))
+	if os.Getenv("MODE") == "development" {
+		CLIENT_URL := os.Getenv("CLIENT_URL")
+		app.Use(cors.New(cors.Config{AllowOrigins: CLIENT_URL, AllowHeaders: "Origin, Content-Type, Accept"}))
+	}
 
 	app.Get(constants.GETTodos, getTodos)
 	app.Get(constants.GETTodo, getTodo)
@@ -64,6 +69,10 @@ func main() {
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
 		PORT = "5000"
+	}
+
+	if os.Getenv("MODE") == "production" {
+		app.Static("/", "./client/dist")
 	}
 
 	log.Fatal(app.Listen("0.0.0.0:" + PORT))
