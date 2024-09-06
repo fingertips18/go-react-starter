@@ -10,7 +10,9 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Moon, Sun } from "lucide-react";
+import { Link } from "react-router-dom";
 
+import { AppRoutes } from "../constants/routes";
 import { GOTEXT } from "../constants/assets";
 
 const Navbar = () => {
@@ -27,14 +29,14 @@ const Navbar = () => {
       />
       <Container maxW="1024px" px={4} py={2} position="relative" zIndex={10}>
         <Flex h={10} alignItems="center" justifyContent="space-between">
-          <a href="/" className="glow-hover">
+          <Link to={AppRoutes.Root} className="glow-hover">
             <Flex alignItems="center" gap="4px">
               <Image src={GOTEXT} alt="Go" objectFit="contain" boxSize="42px" />
               <Heading as="h2" size="md" fontWeight="extrabold" color="go">
                 Starter
               </Heading>
             </Flex>
-          </a>
+          </Link>
 
           <Tooltip label="Mode">
             <Button

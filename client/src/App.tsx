@@ -1,18 +1,25 @@
 import { Container, Stack } from "@chakra-ui/react";
+import { Route, Routes } from "react-router-dom";
 
-import { TodoForm } from "./components/TodoForm";
-import { TodoList } from "./components/TodoList";
+import { AppRoutes } from "./constants/routes";
 import { Navbar } from "./components/Navbar";
+import ToastProvider from "./lib/provider";
+import DetailsPage from "./pages/details";
+import RootPage from "./pages/root";
 
 function App() {
   return (
-    <Stack h="100dvh">
-      <Navbar />
-      <Container>
-        <TodoForm />
-        <TodoList />
-      </Container>
-    </Stack>
+    <ToastProvider>
+      <Stack h="100dvh" overflowX="hidden">
+        <Navbar />
+        <Container maxW="1024px">
+          <Routes>
+            <Route path={AppRoutes.Root} element={<RootPage />} />
+            <Route path={AppRoutes.Details} element={<DetailsPage />} />
+          </Routes>
+        </Container>
+      </Stack>
+    </ToastProvider>
   );
 }
 

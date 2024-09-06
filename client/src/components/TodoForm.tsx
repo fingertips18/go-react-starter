@@ -6,16 +6,29 @@ import {
   Tooltip,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
+
+import { TodoService } from "../lib/service";
 
 const TodoForm = () => {
   const [todo, setTodo] = useState("");
-  const [loading] = useState(false);
+  const queryClient = useQueryClient();
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-  };
+  const { mutate: onSubmit, isPending: isCreating } = useMutation({
+    mutationKey: ["createTodo"],
+    mutationFn: async (e: React.FormEvent) => {
+      e.preventDefault();
+      await TodoService.createTodo(todo, () => setTodo(""));
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+      toast.success("Todo created successfully");
+    },
+    onError: ({ message }) => toast.error(message || "Unable to create todo"),
+  });
 
   return (
     <form
@@ -29,7 +42,7 @@ const TodoForm = () => {
           type="text"
           value={todo}
           onChange={(e) => setTodo(e.target.value)}
-          disabled={loading}
+          disabled={isCreating}
           autoComplete="off"
           name="search"
           ref={(input) => input && input.focus()}
@@ -46,9 +59,9 @@ const TodoForm = () => {
             _active={{
               transform: "scale(.98)",
             }}
-            disabled={loading}
+            disabled={isCreating}
           >
-            {loading ? <Spinner size="xs" /> : <PlusCircle />}
+            {isCreating ? <Spinner size="xs" /> : <PlusCircle />}
           </Button>
         </Tooltip>
       </Flex>

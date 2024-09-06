@@ -2,26 +2,13 @@ import { Flex, Image, Stack, Text, useColorModeValue } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 
 import { TodoItem, TodoItemSkeleton } from "./TodoItem";
-import { API } from "../constants/api";
+import { TodoService } from "../lib/service";
 import { Todo } from "../lib/types";
 
 const TodoList = () => {
   const { data: todos, isLoading } = useQuery<Todo[]>({
     queryKey: ["todos"],
-    queryFn: async () => {
-      try {
-        const res = await fetch(import.meta.env.VITE_BASE_URL + API.Todos);
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.error || "Something went wrong");
-        }
-
-        return data || [];
-      } catch {
-        return [];
-      }
-    },
+    queryFn: TodoService.getTodos,
   });
 
   return (

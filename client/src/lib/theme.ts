@@ -34,5 +34,6 @@ export const theme = extendTheme({
       accent: "#2860A4",
     },
     go: "#00ADD8",
+    goOpacity: "rgba(0, 173, 216, 0.1)",
   },
 });

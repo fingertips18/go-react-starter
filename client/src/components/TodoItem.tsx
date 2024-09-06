@@ -9,8 +9,11 @@ import {
 } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CheckCircle, Hourglass, Trash2 } from "lucide-react";
+import { Link as ReactRouterLink } from "react-router-dom";
+import { Link as ChakraLink } from "@chakra-ui/react";
+import { toast } from "sonner";
 
-import { API } from "../constants/api";
+import { TodoService } from "../lib/service";
 
 interface TodoItemProps {
   _id: number;
@@ -23,57 +26,59 @@ const TodoItem = ({ _id, completed, body }: TodoItemProps) => {
 
   const { mutate: updateTodo, isPending: isUpdating } = useMutation({
     mutationKey: ["updateTodo'"],
-    mutationFn: async () => {
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_BASE_URL + API.Todos}/${_id}`,
-          {
-            method: "PATCH",
-          }
-        );
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.error || "Something went wrong");
-        }
-
-        return data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    mutationFn: async () => await TodoService.updateTodo(_id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
+      toast.success("Todo updated successfully");
     },
+    onError: ({ message }) => toast.error(message || "Unable to update todo"),
+  });
+
+  const { mutate: deleteTodo, isPending: isDeleting } = useMutation({
+    mutationKey: ["deleteTodo"],
+    mutationFn: async () => await TodoService.deleteTodo(_id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+      toast.success("Todo deleted successfully");
+    },
+    onError: ({ message }) => toast.error(message || "Unable to delete todo"),
   });
 
   return (
     <Flex gap={2} alignItems="center">
-      <Flex
-        flex={1}
-        alignItems="center"
-        border="1px"
-        borderColor="gray"
-        py={2}
-        px={4}
-        borderRadius="md"
-        justifyContent="space-between"
-      >
-        <Text
-          color={completed ? "green.200" : "yellow.200"}
-          textDecoration={completed ? "line-through" : "none"}
+      <ChakraLink as={ReactRouterLink} to={`${_id}`} flex={1}>
+        <Flex
+          alignItems="center"
+          border="1px"
+          borderColor="go"
+          py={2}
+          px={4}
+          borderRadius="md"
+          justifyContent="space-between"
+          gap={8}
+          overflow="hidden"
+          bg="goOpacity"
         >
-          {body}
-        </Text>
-        <Badge ml="1" colorScheme={completed ? "green" : "yellow"}>
-          {completed ? "Completed" : "Pending"}
-        </Badge>
-      </Flex>
+          <Text
+            textDecoration={completed ? "line-through" : "none"}
+            isTruncated
+            fontWeight="bold"
+            maxWidth="80%"
+          >
+            {body}
+          </Text>
+          <Badge ml="1" colorScheme={completed ? "green" : "yellow"}>
+            {completed ? "Completed" : "Pending"}
+          </Badge>
+        </Flex>
+      </ChakraLink>
       <Tooltip label={completed ? "Completed" : "Pending"}>
         <Button
           color={completed ? "green.500" : "yellow.500"}
           cursor="pointer"
           disabled={isUpdating}
           onClick={() => updateTodo()}
+          flexShrink={0}
         >
           {isUpdating ? (
             <Spinner size="sm" />
@@ -85,8 +90,14 @@ const TodoItem = ({ _id, completed, body }: TodoItemProps) => {
         </Button>
       </Tooltip>
       <Tooltip label="Delete">
-        <Button color="red.500" cursor="pointer">
-          <Trash2 size={25} />
+        <Button
+          color="red.500"
+          cursor="pointer"
+          disabled={isDeleting}
+          onClick={() => deleteTodo()}
+          flexShrink={0}
+        >
+          {isDeleting ? <Spinner size="sm" /> : <Trash2 size={20} />}
         </Button>
       </Tooltip>
     </Flex>
@@ -96,9 +107,9 @@ const TodoItem = ({ _id, completed, body }: TodoItemProps) => {
 const TodoItemSkeleton = () => {
   return (
     <Flex gap={2} alignItems="center">
-      <Skeleton w="100%" h="38px" borderRadius="md" />
-      <Skeleton w="69px" h="38px" borderRadius="md" />
-      <Skeleton w="69px" h="38px" borderRadius="md" />
+      <Skeleton flex={1} h="40px" borderRadius="md" />
+      <Skeleton w="52px" h="40px" borderRadius="md" />
+      <Skeleton w="52px" h="40px" borderRadius="md" />
     </Flex>
   );
 };
