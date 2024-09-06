@@ -12,7 +12,7 @@ function App() {
     <ToastProvider>
       <Stack h="100dvh" overflowX="hidden">
         <Navbar />
-        <Container maxW="1024px">
+        <Container>
           <Routes>
             <Route path={AppRoutes.Root} element={<RootPage />} />
             <Route path={AppRoutes.Details} element={<DetailsPage />} />

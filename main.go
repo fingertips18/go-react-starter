@@ -146,18 +146,31 @@ func patchTodo(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid todo ID"})
 	}
 
+	var updateData struct {
+		Completed *bool  `json:"completed"`
+		Body      string `json:"body"`
+	}
+	if err := c.BodyParser(&updateData); err != nil {
+		return c.Status(400).JSON(fiber.Map{"error": "Failed to parse todo"})
+	}
+
 	filter := bson.M{"_id": objectID}
 
 	var todo Todo
 	err = collection.FindOne(context.Background(), filter).Decode(&todo)
 	if err != nil {
-		return c.Status(400).JSON(fiber.Map{"error": "Failed to retrieve todo"})
+		return c.Status(400).JSON(fiber.Map{"error": "Failed to retrieve todo'"})
 	}
 
-	currentStatus := todo.Completed
-	update := bson.M{"$set": bson.M{"completed": !currentStatus}}
+	update := bson.M{}
+	if updateData.Completed != nil {
+		update["completed"] = *updateData.Completed
+	}
+	if updateData.Body != "" {
+		update["body"] = updateData.Body
+	}
 
-	_, err = collection.UpdateOne(context.Background(), filter, update)
+	_, err = collection.UpdateOne(context.Background(), filter, bson.M{"$set": update})
 	if err != nil {
 		return err
 	}

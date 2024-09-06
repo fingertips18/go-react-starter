@@ -24,14 +24,15 @@ interface TodoItemProps {
 const TodoItem = ({ _id, completed, body }: TodoItemProps) => {
   const queryClient = useQueryClient();
 
-  const { mutate: updateTodo, isPending: isUpdating } = useMutation({
-    mutationKey: ["updateTodo'"],
-    mutationFn: async () => await TodoService.updateTodo(_id),
+  const { mutate: updateStatus, isPending: isUpdating } = useMutation({
+    mutationKey: ["updateStatus'"],
+    mutationFn: async () => await TodoService.updateStatus(_id, !completed),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
-      toast.success("Todo updated successfully");
+      toast.success("Todo status updated successfully");
     },
-    onError: ({ message }) => toast.error(message || "Unable to update todo"),
+    onError: ({ message }) =>
+      toast.error(message || "Unable to update todo status"),
   });
 
   const { mutate: deleteTodo, isPending: isDeleting } = useMutation({
@@ -46,7 +47,7 @@ const TodoItem = ({ _id, completed, body }: TodoItemProps) => {
 
   return (
     <Flex gap={2} alignItems="center">
-      <ChakraLink as={ReactRouterLink} to={`${_id}`} flex={1}>
+      <ChakraLink as={ReactRouterLink} to={`${_id}`} flex={1} overflow="hidden">
         <Flex
           alignItems="center"
           border="1px"
@@ -56,7 +57,6 @@ const TodoItem = ({ _id, completed, body }: TodoItemProps) => {
           borderRadius="md"
           justifyContent="space-between"
           gap={8}
-          overflow="hidden"
           bg="goOpacity"
         >
           <Text
@@ -77,7 +77,7 @@ const TodoItem = ({ _id, completed, body }: TodoItemProps) => {
           color={completed ? "green.500" : "yellow.500"}
           cursor="pointer"
           disabled={isUpdating}
-          onClick={() => updateTodo()}
+          onClick={() => updateStatus()}
           flexShrink={0}
         >
           {isUpdating ? (

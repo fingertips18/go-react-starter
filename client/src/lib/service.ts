@@ -49,10 +49,34 @@ export const TodoService = {
       throw new Error(error as string);
     }
   },
-  updateTodo: async (_id: number) => {
+  updateStatus: async (_id: number, status: boolean) => {
     try {
       const res = await fetch(`${baseUrl}/${_id}`, {
         method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ completed: status }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Unable to update todo status");
+      }
+
+      return data;
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  },
+  updateTodo: async (_id: number, todo: string) => {
+    try {
+      const res = await fetch(`${baseUrl}/${_id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ body: todo }),
       });
       const data = await res.json();
 
