@@ -13,7 +13,7 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@fontsource-variable/montserrat": "^5.0.20",
+    "@fontsource-variable/montserrat": "^5.1.0",
     "@tanstack/react-query": "^5.54.1",
     "framer-motion": "^11.5.3",
     "lucide-react": "^0.460.0",
