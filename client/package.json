@@ -15,7 +15,7 @@
     "@emotion/styled": "^11.13.0",
     "@fontsource-variable/montserrat": "^5.1.0",
     "@tanstack/react-query": "^5.61.3",
-    "framer-motion": "^11.5.3",
+    "framer-motion": "^11.11.17",
     "lucide-react": "^0.460.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
