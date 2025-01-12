@@ -1,17 +1,13 @@
-import {
-  Button,
-  Flex,
-  Input,
-  Spinner,
-  Tooltip,
-  useColorModeValue,
-} from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button, Center, Flex, Input, Spinner } from "@chakra-ui/react";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { TodoService } from "../lib/service";
+import { useColorModeValue } from "@/hooks/useColorMode";
+import { TodoService } from "@/lib/service";
+
+import { Tooltip } from "./chakra-ui/tooltip";
 
 const TodoForm = () => {
   const [todo, setTodo] = useState("");
@@ -30,6 +26,8 @@ const TodoForm = () => {
     onError: ({ message }) => toast.error(message || "Unable to create todo"),
   });
 
+  const disabled = isCreating || todo === "";
+
   return (
     <form
       onSubmit={onSubmit}
@@ -45,23 +43,35 @@ const TodoForm = () => {
           disabled={isCreating}
           autoComplete="off"
           name="search"
+          borderColor="go"
+          focusRingColor="go"
+          className="glow-static"
           ref={(input) => input && input.focus()}
         />
-        <Tooltip label="Add Todo">
+        <Tooltip content="Add Todo">
           <Button
-            mx={2}
+            ml={2}
             type="submit"
             bg={useColorModeValue("light.primary", "dark.primary")}
             color="dark.foreground"
-            _hover={{
-              opacity: 0.8,
-            }}
+            width="40px"
+            height="40px"
             _active={{
               transform: "scale(.98)",
             }}
-            disabled={isCreating}
+            disabled={disabled}
+            style={{
+              pointerEvents: disabled ? "none" : undefined,
+            }}
+            className="glow-hover"
           >
-            {isCreating ? <Spinner size="xs" /> : <PlusCircle />}
+            {isCreating ? (
+              <Center>
+                <Spinner size="sm" />
+              </Center>
+            ) : (
+              <PlusCircle />
+            )}
           </Button>
         </Tooltip>
       </Flex>

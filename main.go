@@ -25,16 +25,15 @@ type Todo struct {
 var collection *mongo.Collection
 
 func main() {
-	if os.Getenv("MODE") == "development" {
-		err := godotenv.Load(".env")
-		if err != nil {
-			log.Fatal("Error loading .env file:", err)
-		}
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Error loading .env file:", err)
 	}
 
 	MONGODB_URI := os.Getenv("MONGODB_URI")
 
-	clientOptions := options.Client().ApplyURI(MONGODB_URI)
+	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+	clientOptions := options.Client().ApplyURI(MONGODB_URI).SetServerAPIOptions(serverAPI)
 	client, err := mongo.Connect(context.Background(), clientOptions)
 
 	if err != nil {

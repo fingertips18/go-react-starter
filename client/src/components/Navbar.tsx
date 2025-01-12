@@ -1,19 +1,12 @@
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Heading,
-  Image,
-  Tooltip,
-  useColorMode,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Image, Span } from "@chakra-ui/react";
 import { Moon, Sun } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import { AppRoutes } from "../constants/routes";
-import { GOTEXT } from "../constants/assets";
+import { useColorMode, useColorModeValue } from "@/hooks/useColorMode";
+import { AppRoutes } from "@/constants/routes";
+import { GO_TEXT } from "@/constants/assets";
+
+import { Tooltip } from "./chakra-ui/tooltip";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -25,9 +18,8 @@ const Navbar = () => {
       top={0}
       zIndex="docked"
       w="100%"
-      backdropFilter="auto"
-      backdropBlur="16px"
-      borderBottom="1px"
+      backdropFilter="blur(16px)"
+      borderBottomWidth="1px"
       borderColor="goOpacity"
       className="blur-performance"
     >
@@ -41,19 +33,26 @@ const Navbar = () => {
       <Container maxW="1024px" px={4} py={2} position="relative" zIndex={10}>
         <Flex h={10} alignItems="center" justifyContent="space-between">
           <Link to={AppRoutes.Root} className="glow-hover">
-            <Flex alignItems="center" gap="4px">
-              <Image src={GOTEXT} alt="Go" objectFit="contain" boxSize="42px" />
-              <Heading as="h2" size="md" fontWeight="extrabold" color="go">
+            <Flex alignItems="center" gap="6px">
+              <Image src={GO_TEXT} alt="Go" fit="contain" height="42px" />
+              <Span
+                fontSize="x-large"
+                lineHeight="short"
+                fontWeight="extrabold"
+                color="go"
+              >
                 Starter
-              </Heading>
+              </Span>
             </Flex>
           </Link>
 
-          <Tooltip label="Mode">
+          <Tooltip content="Mode">
             <Button
               onClick={toggleColorMode}
               bg={useColorModeValue("light.accent", "dark.accent")}
               color="dark.foreground"
+              maxWidth="40px"
+              maxHeight="40px"
               _hover={{
                 opacity: 0.8,
               }}
