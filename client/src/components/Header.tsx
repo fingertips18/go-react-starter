@@ -14,7 +14,7 @@ const Header = () => {
   return (
     <Box
       boxShadow="sm"
-      position="sticky"
+      position="fixed"
       top={0}
       zIndex="docked"
       width="full"
