@@ -9,16 +9,20 @@ import RootPage from "@/pages/root";
 
 function App() {
   return (
-    <Stack minH="100dvh" overflow="hidden" gap={0}>
+    <Stack minH="100dvh" overflow="hidden" gap={0} position="relative">
       <Header />
       <Container
-        py={{
-          base: 6,
-          sm: 12,
+        pt={{
+          base: "70px",
+          sm: "76px",
+        }}
+        pb={{
+          base: "6px",
+          sm: "12px",
         }}
         maxWidth="2xl"
         style={{
-          minHeight: "calc(100dvh - 91px)",
+          minHeight: "calc(100dvh - 34px)",
         }}
       >
         <Routes>
