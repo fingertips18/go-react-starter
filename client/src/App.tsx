@@ -17,8 +17,8 @@ function App() {
           sm: "76px",
         }}
         pb={{
-          base: "6px",
-          sm: "12px",
+          base: "24px",
+          sm: "32px",
         }}
         maxWidth="2xl"
         style={{
