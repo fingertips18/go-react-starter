@@ -76,7 +76,7 @@ const TodoList = () => {
           }}
         >
           <Text fontSize={"xl"} textAlign="center" fontWeight="semibold">
-            All task is done! 🎉
+            All tasks are done! 🎉
           </Text>
           <Image src="/go.svg" alt="Go logo" width={70} height={70} />
         </Stack>
