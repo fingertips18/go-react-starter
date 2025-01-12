@@ -29,12 +29,7 @@ const TodoForm = () => {
   const disabled = isCreating || todo === "";
 
   return (
-    <form
-      onSubmit={onSubmit}
-      style={{
-        marginTop: "24px",
-      }}
-    >
+    <form onSubmit={onSubmit}>
       <Flex gap={2}>
         <Input
           type="text"
