@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, Center, Flex, Input, Spinner } from "@chakra-ui/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -41,7 +41,7 @@ const TodoForm = () => {
           borderColor="go"
           focusRingColor="go"
           className="glow-static"
-          ref={(input) => input && input.focus()}
+          ref={(input) => (input ? input.focus() : undefined)}
         />
         <Tooltip content="Add Todo">
           <Button
