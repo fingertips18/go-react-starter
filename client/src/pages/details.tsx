@@ -32,7 +32,7 @@ const DetailsPage = () => {
 
   if (isLoading) {
     return (
-      <Stack gap={8} mt={8}>
+      <Stack gap={8}>
         <Flex alignItems="center" justifyContent="space-between">
           <Skeleton width="40px" height="40px" bgColor={backColor} />
           <Skeleton width="40px" height="40px" bgColor={editColor} />
@@ -49,7 +49,7 @@ const DetailsPage = () => {
 
   return (
     <>
-      <Stack gap={8} mt={8}>
+      <Stack gap={8}>
         <Flex alignItems="center" justifyContent="space-between">
           <Link to={AppRoutes.Root}>
             <Tooltip

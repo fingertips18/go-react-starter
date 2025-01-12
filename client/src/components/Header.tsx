@@ -8,7 +8,7 @@ import { GO_TEXT } from "@/constants/assets";
 
 import { Tooltip } from "./chakra-ui/tooltip";
 
-const Navbar = () => {
+const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -17,15 +17,15 @@ const Navbar = () => {
       position="sticky"
       top={0}
       zIndex="docked"
-      w="100%"
+      width="full"
       backdropFilter="blur(16px)"
       borderBottomWidth="1px"
       borderColor="goOpacity"
       className="blur-performance"
     >
       <Box
-        w="100%"
-        h="100%"
+        width="full"
+        height="full"
         bg={useColorModeValue("light.secondary", "dark.secondary")}
         opacity={0.1}
         position="absolute"
@@ -66,4 +66,4 @@ const Navbar = () => {
   );
 };
 
-export { Navbar };
+export { Header };
