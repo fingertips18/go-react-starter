@@ -1,8 +1,9 @@
-import { useColorMode } from "@chakra-ui/react";
 import { Toaster } from "sonner";
 
+import { useColorModeValue } from "@/src/hooks/useColorMode";
+
 const ToastProvider = ({ children }: { children: React.ReactNode }) => {
-  const { colorMode } = useColorMode();
+  const colorMode = useColorModeValue("light", "dark");
 
   return (
     <>

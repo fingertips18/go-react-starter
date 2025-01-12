@@ -1,22 +1,21 @@
-import {
-  Button,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Spinner,
-  Tooltip,
-  useColorModeValue,
-} from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button, DialogTitle, Input, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { TodoService } from "../lib/service";
+import { useColorModeValue } from "@/hooks/useColorMode";
+import { TodoService } from "@/lib/service";
+
+import { Tooltip } from "./chakra-ui/tooltip";
+import {
+  DialogBackdrop,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+} from "./chakra-ui/dialog";
 
 interface TodoModalProps {
   isOpen: boolean;
@@ -49,14 +48,16 @@ const TodoModal = ({ isOpen, onClose, id, body }: TodoModalProps) => {
   const isSame = todo === body;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Edit Todo</ModalHeader>
-        <Tooltip label="Close">
-          <ModalCloseButton />
+    <DialogRoot open={isOpen} onOpenChange={onClose}>
+      <DialogBackdrop />
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit Todo</DialogTitle>
+        </DialogHeader>
+        <Tooltip content="Close">
+          <DialogCloseTrigger />
         </Tooltip>
-        <ModalBody>
+        <DialogBody>
           <Input
             type="text"
             value={todo}
@@ -64,15 +65,19 @@ const TodoModal = ({ isOpen, onClose, id, body }: TodoModalProps) => {
             autoComplete="off"
             name="todo"
             ref={(input) => input && input.focus()}
+            borderColor="go"
+            focusRingColor="go"
+            fontSize="medium"
+            className="glow-static"
           />
-        </ModalBody>
-        <ModalFooter>
-          <Button variant="ghost" onClick={onClose} mr={2}>
+        </DialogBody>
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose} mr={2}>
             Close
           </Button>
           <Button
             bg={useColorModeValue("light.accent", "dark.accent")}
-            isDisabled={isSame || isUpdating}
+            disabled={isSame || isUpdating}
             _hover={{
               opacity: 0.8,
             }}
@@ -84,9 +89,9 @@ const TodoModal = ({ isOpen, onClose, id, body }: TodoModalProps) => {
           >
             {isUpdating ? <Spinner size="sm" /> : "Save"}
           </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </DialogRoot>
   );
 };
 

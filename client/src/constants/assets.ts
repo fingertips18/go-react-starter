@@ -1,1 +1,1 @@
-export const GOTEXT = "/go-text.svg";
+export const GO_TEXT = "/go-text.svg";

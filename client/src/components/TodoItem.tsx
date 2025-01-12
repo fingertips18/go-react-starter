@@ -1,19 +1,22 @@
 import {
   Badge,
   Button,
+  Center,
   Flex,
-  Skeleton,
+  HStack,
   Spinner,
   Text,
-  Tooltip,
 } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CheckCircle, Hourglass, Trash2 } from "lucide-react";
-import { Link as ReactRouterLink } from "react-router-dom";
-import { Link as ChakraLink } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
-import { TodoService } from "../lib/service";
+import { useColorModeValue } from "@/hooks/useColorMode";
+import { TodoService } from "@/lib/service";
+
+import { Skeleton } from "./chakra-ui/skeleton";
+import { Tooltip } from "./chakra-ui/tooltip";
 
 interface TodoItemProps {
   _id: number;
@@ -46,42 +49,81 @@ const TodoItem = ({ _id, completed, body }: TodoItemProps) => {
   });
 
   return (
-    <Flex gap={2} alignItems="center">
-      <ChakraLink as={ReactRouterLink} to={`${_id}`} flex={1} overflow="hidden">
+    <HStack gap={2} width="full">
+      <Link to={`${_id}`} style={{ width: "100%" }}>
         <Flex
           alignItems="center"
-          border="1px"
-          borderColor="go"
+          justify="space-between"
+          boxShadow="inset 0px 0px 0px 0.5px #00add8"
+          _hover={{
+            boxShadow: "inset 0px 0px 0px 1px #00add8",
+            scale: 1,
+          }}
+          _focus={{
+            boxShadow: "inset 0px 0px 0px 1px #00add8",
+          }}
           py={2}
           px={4}
           borderRadius="md"
-          justifyContent="space-between"
-          gap={8}
-          bg="goOpacity"
+          gap={{
+            base: 2,
+            sm: 8,
+          }}
+          bgColor="goOpacity"
+          className="glow-hover"
         >
           <Text
             textDecoration={completed ? "line-through" : "none"}
-            isTruncated
             fontWeight="bold"
-            maxWidth="80%"
+            fontSize={{
+              base: "sm",
+              sm: "initial",
+            }}
+            lineClamp={1}
           >
             {body}
           </Text>
-          <Badge ml="1" colorScheme={completed ? "green" : "yellow"}>
+          <Badge colorPalette={completed ? "green" : "yellow"}>
             {completed ? "Completed" : "Pending"}
           </Badge>
         </Flex>
-      </ChakraLink>
-      <Tooltip label={completed ? "Completed" : "Pending"}>
+      </Link>
+      <Tooltip
+        content={completed ? "Completed" : "Pending"}
+        contentProps={{
+          bgColor: completed ? "green.500" : "yellow.500",
+        }}
+        openDelay={0}
+        closeDelay={0}
+      >
         <Button
           color={completed ? "green.500" : "yellow.500"}
-          cursor="pointer"
+          bgColor={useColorModeValue(
+            completed ? "green.100" : "yellow.100",
+            completed ? "green.950" : "yellow.950"
+          )}
+          width="40px"
+          height="40px"
+          css={{
+            "--glow-color": completed ? "#22c55e" : "#eab308",
+          }}
+          style={{
+            boxShadow: `0px 0px 0px 0.5px ${completed ? "#22c55e" : "#eab308"}`,
+          }}
+          _hover={{
+            boxShadow: `0px 0px 0px 1px ${completed ? "#22c55e" : "#eab308"}`,
+          }}
+          _focus={{
+            boxShadow: `0px 0px 0px 1px ${completed ? "#22c55e" : "#eab308"}`,
+          }}
+          className="glow-hover"
           disabled={isUpdating}
           onClick={() => updateStatus()}
-          flexShrink={0}
         >
           {isUpdating ? (
-            <Spinner size="sm" />
+            <Center>
+              <Spinner size="sm" />
+            </Center>
           ) : completed ? (
             <CheckCircle size={20} />
           ) : (
@@ -89,27 +131,64 @@ const TodoItem = ({ _id, completed, body }: TodoItemProps) => {
           )}
         </Button>
       </Tooltip>
-      <Tooltip label="Delete">
+      <Tooltip
+        content="Delete"
+        contentProps={{
+          bgColor: "red.500",
+        }}
+        openDelay={0}
+        closeDelay={0}
+      >
         <Button
           color="red.500"
-          cursor="pointer"
+          bgColor={useColorModeValue("red.100", "red.950")}
+          width="40px"
+          height="40px"
+          css={{
+            "--glow-color": "#ef4444",
+          }}
+          style={{
+            boxShadow: "0px 0px 0px 0.5px #ef4444",
+          }}
+          _hover={{
+            boxShadow: "0px 0px 0px 1px #ef4444",
+          }}
+          _focus={{
+            boxShadow: "0px 0px 0px 1px #ef4444",
+          }}
+          className="glow-hover"
           disabled={isDeleting}
           onClick={() => deleteTodo()}
-          flexShrink={0}
         >
-          {isDeleting ? <Spinner size="sm" /> : <Trash2 size={20} />}
+          {isDeleting ? (
+            <Center>
+              <Spinner size="sm" />
+            </Center>
+          ) : (
+            <Trash2 size={20} />
+          )}
         </Button>
       </Tooltip>
-    </Flex>
+    </HStack>
   );
 };
 
 const TodoItemSkeleton = () => {
   return (
-    <Flex gap={2} alignItems="center">
-      <Skeleton flex={1} h="40px" borderRadius="md" />
-      <Skeleton w="52px" h="40px" borderRadius="md" />
-      <Skeleton w="52px" h="40px" borderRadius="md" />
+    <Flex gap={2} alignItems="center" width="full">
+      <Skeleton flex={1} h="40px" borderRadius="md" bgColor="goOpacity" />
+      <Skeleton
+        w="40px"
+        h="40px"
+        borderRadius="md"
+        bgColor={useColorModeValue("green.100", "green.950")}
+      />
+      <Skeleton
+        w="40px"
+        h="40px"
+        borderRadius="md"
+        bgColor={useColorModeValue("red.100", "red.950")}
+      />
     </Flex>
   );
 };

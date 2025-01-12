@@ -1,9 +1,11 @@
-import { Flex, Image, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Image, Stack, Text, VStack } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 
+import { useColorModeValue } from "@/hooks/useColorMode";
+import { TodoService } from "@/lib/service";
+import { Todo } from "@/lib/types";
+
 import { TodoItem, TodoItemSkeleton } from "./TodoItem";
-import { TodoService } from "../lib/service";
-import { Todo } from "../lib/types";
 
 const TodoList = () => {
   const { data: todos, isLoading } = useQuery<Todo[]>({
@@ -16,45 +18,81 @@ const TodoList = () => {
       <Flex
         gap={2}
         alignItems="center"
-        justifyContent="center"
+        justify="center"
         className="glow-static"
+        my={{
+          base: 6,
+          sm: 10,
+        }}
       >
         <Text
-          fontSize="4xl"
+          fontSize={{
+            base: "2xl",
+            sm: "4xl",
+          }}
           textTransform="uppercase"
           fontWeight="black"
           textAlign="center"
-          my={6}
-          bgGradient={`linear(to-r, ${useColorModeValue(
+          bgGradient="to-r"
+          gradientFrom={useColorModeValue(
             "light.foreground",
             "dark.foreground"
-          )}, go)`}
+          )}
+          gradientTo="go"
           bgClip="text"
         >
           Daily Goals
         </Text>
-        <Text fontSize="4xl">🎯</Text>
+        <Text
+          fontSize={{
+            base: "2xl",
+            sm: "4xl",
+          }}
+        >
+          🎯
+        </Text>
       </Flex>
       {isLoading && (
-        <Stack gap="3" mt={8}>
+        <VStack
+          gap="3"
+          alignItems="start"
+          mt={{
+            base: 0,
+            sm: 6,
+          }}
+        >
           <TodoItemSkeleton />
           <TodoItemSkeleton />
           <TodoItemSkeleton />
-        </Stack>
+        </VStack>
       )}
       {!isLoading && todos?.length === 0 && (
-        <Stack alignItems="center" gap="3" mt={8}>
+        <Stack
+          alignItems="center"
+          gap="3"
+          mt={{
+            base: 0,
+            sm: 6,
+          }}
+        >
           <Text fontSize={"xl"} textAlign="center" fontWeight="semibold">
             All task is done! 🎉
           </Text>
           <Image src="/go.svg" alt="Go logo" width={70} height={70} />
         </Stack>
       )}
-      <Stack gap="3" mt={8}>
+      <VStack
+        gap="3"
+        mt={{
+          base: 0,
+          sm: 6,
+        }}
+        alignItems="start"
+      >
         {todos?.map((todo) => (
           <TodoItem key={todo._id} {...todo} />
         ))}
-      </Stack>
+      </VStack>
     </>
   );
 };

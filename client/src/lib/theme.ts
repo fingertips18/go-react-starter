@@ -1,39 +1,59 @@
-import { mode, StyleFunctionProps } from "@chakra-ui/theme-tools";
-import { extendTheme } from "@chakra-ui/react";
+import { createSystem, defaultConfig } from "@chakra-ui/react";
 import "@fontsource-variable/montserrat";
 
-export const theme = extendTheme({
-  config: {
-    initialColorMode: "dark",
-    useSystemColorMode: true,
-  },
-  styles: {
-    global: (props: StyleFunctionProps) => ({
-      body: {
-        backgroundColor: mode("light.background", "dark.background")(props),
+export const theme = createSystem(defaultConfig, {
+  theme: {
+    tokens: {
+      colors: {
+        light: {
+          foreground: {
+            value: "#090F17",
+          },
+          background: {
+            value: "#F0F5FA",
+          },
+          primary: {
+            value: "#457FC4",
+          },
+          secondary: {
+            value: "#8AB0DE",
+          },
+          accent: {
+            value: "#5C94D7",
+          },
+        },
+        dark: {
+          foreground: {
+            value: "#E9EFF6",
+          },
+          background: {
+            value: "#050A0F",
+          },
+          primary: {
+            value: "#3B74BA",
+          },
+          secondary: {
+            value: "#214673",
+          },
+          accent: {
+            value: "#2860A4",
+          },
+        },
+        go: {
+          value: "#00ADD8",
+        },
+        goOpacity: {
+          value: "rgba(0, 173, 216, 0.1)",
+        },
       },
-    }),
-  },
-  fonts: {
-    heading: `'Montserrat Variable', sans-serif`,
-    body: `'Montserrat Variable', sans-serif`,
-  },
-  colors: {
-    light: {
-      foreground: "#090F17",
-      background: "#F0F5FA",
-      primary: "#457FC4",
-      secondary: "#8AB0DE",
-      accent: "#5C94D7",
+      fonts: {
+        heading: {
+          value: `'Montserrat Variable', sans-serif`,
+        },
+        body: {
+          value: `'Montserrat Variable', sans-serif`,
+        },
+      },
     },
-    dark: {
-      foreground: "#E9EFF6",
-      background: "#050A0F",
-      primary: "#3B74BA",
-      secondary: "#214673",
-      accent: "#2860A4",
-    },
-    go: "#00ADD8",
-    goOpacity: "rgba(0, 173, 216, 0.1)",
   },
 });
