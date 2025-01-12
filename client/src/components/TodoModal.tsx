@@ -1,5 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button, DialogTitle, Input, Spinner } from "@chakra-ui/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -64,7 +64,7 @@ const TodoModal = ({ isOpen, onClose, id, body }: TodoModalProps) => {
             onChange={(e) => setTodo(e.target.value)}
             autoComplete="off"
             name="todo"
-            ref={(input) => input && input.focus()}
+            ref={(input) => (input ? input.focus() : undefined)}
             borderColor="go"
             focusRingColor="go"
             fontSize="medium"
