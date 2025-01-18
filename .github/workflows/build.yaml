@@ -36,11 +36,12 @@ jobs:
             echo "Build failed, please check the logs."
             exit 1
           fi
+
       - name: Upload Server Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: server-app
-          paht: app
+          path: app
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
