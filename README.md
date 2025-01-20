@@ -1,4 +1,4 @@
-![](src/assets/banner.png)
+<img src="src/assets/banner.png" alt="Banner" width="100%" />
 
 # 🚀 Go Starter
 
