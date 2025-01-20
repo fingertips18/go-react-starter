@@ -123,8 +123,8 @@ Feel free to fork this repository and contribute by submitting a pull request. A
 
 #### 🧑‍💻 Contributors
 
-<a href="https://github.com/Fingertips18/scroll-wheel-date-picker/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Fingertips18/scroll-wheel-date-picker" />
+<a href="https://github.com/Fingertips18/go-react-starter/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Fingertips18/go-react-starter" />
 </a>
 
 _Ghian Tan_ @ _Fingertips_ ([Github](https://github.com/Fingertips18))
