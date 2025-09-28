@@ -24,7 +24,18 @@ const DetailsPage = () => {
 
   const { data, isLoading } = useQuery<Todo>({
     queryKey: ["todo"],
-    queryFn: async () => await TodoService.getTodo(id!),
+    queryFn: async () => {
+      try {
+        if (!id) {
+          throw new Error("ID is undefined");
+        }
+
+        return await TodoService.getTodo(id);
+      } catch {
+        return null;
+      }
+    },
+    enabled: id !== undefined,
   });
 
   const backColor = useColorModeValue("light.accent", "dark.accent");
