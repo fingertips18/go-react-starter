@@ -65,9 +65,9 @@ This repository serves as a playground for exploring **Go (Golang)** features, i
 
    ```dotenv
    MONGO_URI=<MONGO_URI>
-   PORT=<PORT>
-   MODE=<MODE>
-   CLIENT_URL=<CLIENT_URL>
+   PORT=5000
+   MODE=development
+   CLIENT_URL=http://localhost:5173
    ```
 
 4. **Run the backend server**:
@@ -95,7 +95,7 @@ This repository serves as a playground for exploring **Go (Golang)** features, i
 3. **Set up environment variables. Create a `.env` file in the frontend directory**:
 
    ```dotenv
-   VITE_BASE_URL=<VITE_BASE_URL>
+   VITE_API_URL=http://localhost:5000
    ```
 
 4. **Run the frontend server**:

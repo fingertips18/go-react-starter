@@ -8,8 +8,7 @@ updates:
     commit-message:
       prefix: "chore" # Use 'chore' prefix for the commit message
       include: "scope" # Include the scope (dependency name) in the commit message
-    reviewers:
-      - Fingertips18
+    open-pull-requests-limit: 10
 
   # Update npm dependencies in the client directory
   - package-ecosystem: "npm"
@@ -19,8 +18,7 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
-    reviewers:
-      - Fingertips18
+    open-pull-requests-limit: 10
 
   # Update GitHub Actions dependencies in the root directory
   - package-ecosystem: "github-actions"
@@ -30,5 +28,4 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
-    reviewers:
-      - Fingertips18
+    open-pull-requests-limit: 10
